@@ -4,11 +4,10 @@ const { randomUUID } = require("crypto");
 
 
 const contactsPath = path.join(__dirname, "/../models/contacts.json");
-
-const writeUser = async (contacts) => {
-  return await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+// f запису
+const writeContacts = async (contacts) => {
+    return await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 };
-
 
 // 1
 const listContacts = async () => {
@@ -20,34 +19,28 @@ const listContacts = async () => {
 const getContactById = async (contactId) => {
      const contacts = await listContacts();
     const findContact = contacts.find((contact) => contact.id === contactId);
-    // console.log(findContact || null);
     return findContact || null;
  };
 // 3
-const addContact = async (body) => {
-  try {    
-    const contacts = await listContacts();
-    const contact = { id: randomUUID(), ...body };
-    contacts.push(contact);
-   await writeUser(contacts);
-    console.log(contact);
-   return contact;
-  
-  } catch (error) {
-    console.log("cannot read id");
-  }
-  };
+const addContact = async(body) => {
+      const contacts = await listContacts();
+    const contactNew = { 
+      id: randomUUID(), 
+      ...body, };
+    contacts.push(contactNew);
+   await  writeContacts(contacts);
+   return contactNew;
+    };
 // 4
 const removeContact = async (contactId) => {
-  // const dateForDell = await listContacts();
-  // const index = dateForDell.findIndex((cont) => cont.id === contactId);
-  // const deletedcont = dateForDell[index];
-  // if (index !== -1) {
-  //   dateForDell.splice(index, 1);
-  //   await fs.writeFile(contactsPath, JSON.stringify(dateForDell, null, 2));
-  // }
-  // console.log(deletedcont || null);
-  // return deletedcont;
+  const contacts = await listContacts();
+  const index = contacts.findIndex((cont) => cont.id === contactId);
+  const deletedcont = contacts[index];
+  if (index !== -1) {
+    contacts.splice(index, 1);
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  }
+  return deletedcont || null;
 }
 
 
