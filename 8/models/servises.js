@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { nanoid } = require("nanoid");
+const {nanoid} = require("nanoid");
 
 const contactsPath = path.join(__dirname, "/../models/contacts.json");
 // f запису
@@ -43,14 +43,13 @@ const removeContact = async (contactId) => {
 // 5
 const updateContact = async (contactId, body) => {
   const contacts = await listContacts();
-  const contactIndex = contacts.findIndex(
-    (contact) => contact.id === contactId
-  );
-  if (contactIndex !== -1) {
-    contacts[contactIndex] = { contactId, ...body };
-    await writeContacts(contacts);
-  }
-  return contacts[contactIndex] || null;
+    const contactIndex =
+    contacts.findIndex(contact => contact.id === contactId);
+    if(contactIndex !== -1) {
+      contacts[contactIndex]  = {contactId, ...body};
+      await writeContacts(contacts);
+    }
+    return contacts[contactIndex] || null;
 };
 
 module.exports = {

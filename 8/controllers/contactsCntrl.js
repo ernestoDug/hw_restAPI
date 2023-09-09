@@ -18,14 +18,14 @@ const getContactID = async (req, res) => {
   const { contactId } = req.params;
   const contactByid = await getContactById(contactId);
   if (!contactByid) {
-    throw HttpError(404, `Contact with ID: ${contactId} not found`);
+    throw HttpError(404, `Contact with ID: ${contactId} not found`)
   }
   res.json(contactByid);
 };
 // 3
 const getContatAdd = async (req, res) => {
   const body = req.body;
-  // валідація body
+  // валідація посту
   const { error } = addShema.validate(body);
   if (error) {
     throw HttpError(400, "missing required name field");
@@ -38,14 +38,14 @@ const getRemoveContact = async (req, res) => {
   const { contactId } = req.params;
   const contactRemove = await removeContact(contactId);
   if (!contactRemove) {
-    throw HttpError(404, `Contact with ID: ${contactId} not found`);
+    throw HttpError(404, "Not found");
   }
   res.status(200).json({ message: "contact deleted" });
 };
 // 5
 const getContactUpdate = async (req, res) => {
   const body = req.body;
-  // валідація body
+  // валідація посту
   const { error } = addShema.validate(body);
   if (error) {
     throw HttpError(400, "missing fields");
