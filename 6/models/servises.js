@@ -45,12 +45,12 @@ const updateContact = async (contactId, body) => {
   const contacts = await listContacts();
     const contactIndex =
     contacts.findIndex(contact => contact.id === contactId);
-    if(contactIndex === -1) {
-      return null;
-          } 
-    contacts[contactIndex]  = {contactId, ...body};
-    await writeContacts(contacts);
-    return contacts[contactIndex];
+    if(contactIndex !== -1) {
+
+      contacts[contactIndex]  = {contactId, ...body};
+      await writeContacts(contacts);
+    } 
+    return contacts[contactIndex] || null;
 };
 
 module.exports = {

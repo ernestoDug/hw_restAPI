@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { randomUUID } = require("crypto");
+const {nanoid} = require("nanoid");
 
 const contactsPath = path.join(__dirname, "/../models/contacts.json");
 // f запису
@@ -22,7 +22,7 @@ const getContactById = async (contactId) => {
 const addContact = async (body) => {
   const contacts = await listContacts();
   const contactNew = {
-    id: randomUUID(),
+    id: nanoid(),
     ...body,
   };
   contacts.push(contactNew);
@@ -46,10 +46,9 @@ const updateContact = async (contactId, body) => {
     const contactIndex =
     contacts.findIndex(contact => contact.id === contactId);
     if(contactIndex !== -1) {
-
       contacts[contactIndex]  = {contactId, ...body};
       await writeContacts(contacts);
-    } 
+    }
     return contacts[contactIndex] || null;
 };
 
