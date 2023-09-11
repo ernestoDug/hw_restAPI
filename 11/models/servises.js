@@ -41,13 +41,13 @@ const removeContact = async (contactId) => {
   return deletedcont || null;
 };
 // 5
-const updateContact = async (id, body) => {
+const updateContact = async (contactId, body) => {
   const contacts = await listContacts();
   const contactIndex = contacts.findIndex(
-    (contact) => contact.id === id
+    (contact) => contact.id === contactId
   );
   if (contactIndex !== -1) {
-    contacts[contactIndex] = { id, ...body };
+    contacts[contactIndex] = { contactId, ...body };
     await writeContacts(contacts);
   }
   return contacts[contactIndex] || null;
