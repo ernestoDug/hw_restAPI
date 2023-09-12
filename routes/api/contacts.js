@@ -1,17 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const controls = require("../../controllers/contactsCntrl");
+const {bodyValidator, bodyVallidator} = require("../../middlewares");
+const  {addShema} = require("../../shemas/contactsShema");
+
 // 1
 router.get("/", controls.getContacts);
 // 2
 router.get("/:contactId", controls.getContactID);
 // 3
 // !! posman raw та json замість text
-router.post("/", controls.getContatAdd);
+router.post("/", bodyValidator(addShema), controls.getContatAdd);
 // 4
 router.delete("/:contactId", controls.getRemoveContact);
 
 // 5
-router.put("/:contactId", controls.getContactUpdate);
+router.put("/:contactId", bodyVallidator(addShema), controls.getContactUpdate);
 
 module.exports = router;

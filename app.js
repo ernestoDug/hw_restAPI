@@ -1,11 +1,16 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-
+// ******************************************
+// для пошуку .енв з top secreat
+ require ('dotenv').config();
+//  ****************************************
+ 
 const contactsRouter = require("./routes/api/contacts");
 
-const app = express();
 
+const app = express();
+// виводити в консоль повну чи скорочену інфу про запит
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
