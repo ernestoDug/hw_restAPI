@@ -23,9 +23,9 @@ const getContactID = async (req, res) => {
   res.json(contactByid);
 };
 // 3
-const getContatAdd = async (req, res) => {
-  const body = req.body;
-  const newContact = await addContact(body);
+const getContatAdd = async (req, res, next) => {
+  const body = req.body; 
+    const newContact = await addContact(body);
   return res.status(201).json(newContact);
 };
 // 4

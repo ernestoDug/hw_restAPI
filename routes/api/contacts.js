@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controls = require("../../controllers/contactsCntrl");
-const {bodyValidator, bodyVallidator} = require("../../middlewares");
+const {bodyValidator} = require("../../middlewares");
 const  {addShema} = require("../../shemas/contactsShema");
 
 // 1
@@ -15,6 +15,6 @@ router.post("/", bodyValidator(addShema), controls.getContatAdd);
 router.delete("/:contactId", controls.getRemoveContact);
 
 // 5
-router.put("/:contactId", bodyVallidator(addShema), controls.getContactUpdate);
+router.put("/:contactId", bodyValidator(addShema), controls.getContactUpdate);
 
 module.exports = router;
