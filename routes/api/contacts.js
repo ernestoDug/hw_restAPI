@@ -8,13 +8,13 @@ const  {addShema} = require("../../shemas/contactsShema");
 router.get("/", controls.getContacts);
 // 2
 router.get("/:contactId", controls.getContactID);
-// 3
-// !! posman raw та json замість text
+// // 3
+// // !! posman raw та json замість text
 router.post("/", bodyValidator(addShema), controls.getContatAdd);
-// 4
+// // 4
 router.delete("/:contactId", controls.getRemoveContact);
 
-// 5
+// // 5
 router.put("/:contactId", bodyValidator(addShema), controls.getContactUpdate);
 
 module.exports = router;
