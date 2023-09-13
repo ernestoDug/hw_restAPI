@@ -1,5 +1,4 @@
 const app = require("./app");
-// ******* 
 // для підлючення до d/b 
 const {DB_HOST, PORT = 3000} = process.env;
 const mongoose = require("mongoose"); 
@@ -18,5 +17,4 @@ mongoose
         // для завершення процессів
         process.exit(1);
             })
-        // ************************* *
 
