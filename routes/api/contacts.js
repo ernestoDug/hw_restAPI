@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controls = require("../../controllers/contactsCntrl");
 const { bodyValidator } = require("../../middlewares");
-const { addShema } = require("../../shemas/contactsShema");
+const { addShema } = require("../../models/contactModel");
 
 // 1
 router.get("/", controls.getContacts);

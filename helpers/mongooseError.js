@@ -1,5 +1,5 @@
 const mongooseError = (error, data, next) => {
-    error.status = 404;
+    error.status = 400;
     next();
   };
   
