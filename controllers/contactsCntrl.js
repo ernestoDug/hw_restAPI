@@ -2,8 +2,10 @@ const {Contacts} = require("../models/contactModel");
 const { wrapperCntrl, HttpError } = require("../helpers");
 
 // 1
-const getContacts = async (req, res) => {
-  const contacts = await Contacts.find();
+const getContacts = async (req, res) => {               
+//  повернути лише те що після {}
+///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом
+  const contacts = await Contacts.find({}, "name phone email favorite");
   return res.status(200).json(contacts);
 };
 // // 2
