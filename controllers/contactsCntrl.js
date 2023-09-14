@@ -1,14 +1,6 @@
 const {Contacts} = require("../models/contactModel");
 const { wrapperCntrl, HttpError } = require("../helpers");
 
-// const {
-//   listContacts,
-//   getContactById,
-//   addContact,
-//   removeContact,
-//   updateContact,
-// } = require("../models/servises");
-
 // 1
 const getContacts = async (req, res) => {
   const contacts = await Contacts.find();
