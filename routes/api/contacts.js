@@ -17,7 +17,7 @@ router.delete("/:contactId", idValidator, controls.getRemoveContact);
 // 5
 router.put("/:contactId",idValidator, bodyValidator(addShema), controls.getContactUpdate);
 // 6
-router.patch("/:contactId/favorite", idValidator, bodyValidator(favoriteSchema), controls.updateFavorite);
-
+router.patch("/:contactId/favorite", idValidator, bodyValidator(favoriteSchema), controls.updateStatusContact );
+ 
 
 module.exports = router;
