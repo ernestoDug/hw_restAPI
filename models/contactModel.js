@@ -67,16 +67,18 @@ const addShema = Joi.object({
     "string.min": `"phone" should have a min  length of 18 symbol`,
     "any.required": `missing required "phone" field`,
   }),
-  favorite: Joi.boolean()
-  .required()
-  .messages({
-    "any.required": `missing field favorite`,
-  }),
+});
+
+// схема для патча фейворіт
+const favoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
 });
 
 module.exports = {
   addShema,
   Contacts,
+  favoriteSchema
 };
 
+// універсальне поле 
 // ,`missing required ${error.details[0].path[0]} field`
