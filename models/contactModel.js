@@ -53,14 +53,14 @@ const addShema = Joi.object({
   }),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .pattern(emailRegexp, "Correct example: (shsrlok@hol.com or shsrlok@hol.net)")
+    .pattern(emailRegexp, "Correct: shsrlok@hol.com or shsrlok@hol.net")
     .required()
     .messages({
       "string.base": `"email" should be a type of 'text and must belong to the domain .com or .net'`,
       "any.required": `missing required "email" field`,
     }),
   phone: Joi.string().max(18)
-  .pattern(phoneRegexp)
+  .pattern(phoneRegexp, "correct: (xxx) xxx-xxxx")
   .required()
   .messages({
     "string.base": `"phone" should be a type of 'string'`,
