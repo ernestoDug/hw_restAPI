@@ -44,16 +44,16 @@ const Contacts = mongoose.model("contacts", contactsSchema);
 // джої схема
 const addShema = Joi.object({
   name: Joi.string().min(3).max(20)
-  .pattern(nameRegexp, "Correct Example: (Dik or dik  but dont 8dic...)" )
+  .pattern(nameRegexp, "Correct: (Dik or dik  but dont 5dic...)" )
   .required()
   .messages({
     "string.base": `"name" should be a type of 'text'`,
     "string.min": `"name" should have a minimum length of 3 of symbol`,
     "any.required": `missing required "name" field`,
   }),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .pattern(emailRegexp, "Correct: shsrlok@hol.com or shsrlok@hol.net")
+  email: Joi.string() 
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
+    .pattern(emailRegexp, "Correct: shsrlok@hol.com or ...net or ...ua")
     .required()
     .messages({
       "string.base": `"email" should be a type of 'text and must belong to the domain .com or .net'`,
@@ -64,7 +64,6 @@ const addShema = Joi.object({
   .required()
   .messages({
     "string.base": `"phone" should be a type of 'string'`,
-    "string.min": `"phone" should have a min  length of 18 symbol`,
     "any.required": `missing required "phone" field`,
   }),
 });

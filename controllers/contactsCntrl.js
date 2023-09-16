@@ -11,7 +11,7 @@ const getContacts = async (req, res) => {
 // // 2
 const getContactID = async (req, res) => {
   const { contactId } = req.params;
-  const contactByid = await Contacts.findById(contactId);
+  const contactByid = await Contacts.findById(contactId, "name phone email favorite");
   if (!contactByid) {
     throw HttpError(404, `Not found`);
   }
@@ -42,7 +42,7 @@ const getContactUpdate = async (req, res) => {
   });
   if (!contactUpdate) {
     throw HttpError(404, "Not found");
-  }
+  } 
   res.status(200).json(contactUpdate);
 };
 // 6
