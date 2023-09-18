@@ -1,25 +1,36 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
+// для пошуку .енв з top secreat
+ require ('dotenv').config();
 
-const contactsRouter = require('./routes/api/contacts')
+const contactsRouter = require("./routes/api/contacts");
+const app = express();
+// виводити в консоль повну чи скорочену інфу про запит
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+// ******************4
+// const authRouter = require("./routes/api/users");
+// ********************4
+app.use(logger(formatsLogger));
+app.use(cors());
+//  м/в для читання боді
+app.use(express.json());
 
-const app = express()
+app.use("/api/contacts", contactsRouter);
+// ****************************************4
+// все на юсерз через аусроутер
+// app.use("/api/users", authRouter);
+// ****************************************4
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
-
-app.use(logger(formatsLogger))
-app.use(cors())
-app.use(express.json())
-
-app.use('/api/contacts', contactsRouter)
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
-})
+  res.status(404).json({ message: "Not found" });
+});
 
+// обробник помилок для next(error)
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
-})
+  const { status = 500, message = "Server error" } = err;
+  res.status(status).json({ message });
+});
 
-module.exports = app
+module.exports = app;

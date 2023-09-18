@@ -1,0 +1,67 @@
+const { Contacts } = require("../models/contactModel");
+const { wrapperCntrl, HttpError } = require("../helpers");
+
+// 1
+const getContacts = async (req, res) => {
+  //  повернути лише те що після {}
+  ///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом
+  const contacts = await Contacts.find({}, "name phone email favorite");
+  return res.status(200).json(contacts);
+};
+// // 2
+const getContactID = async (req, res) => {
+  const { contactId } = req.params;
+  const contactByid = await Contacts.findById(contactId, "name phone email favorite");
+  if (!contactByid) {
+    throw HttpError(404, `Not found`);
+  }
+  res.json(contactByid);
+};
+// 3
+const getContatAdd = async (req, res) => {
+  const body = req.body;
+  const newContact = await Contacts.create(body);
+  return res.status(201).json(newContact);
+};
+// // 4
+const getRemoveContact = async (req, res) => {
+  const { contactId } = req.params;
+  const contactRemove = await Contacts.findByIdAndRemove(contactId);
+  if (!contactRemove) {
+    throw HttpError(404, `Not found`);
+  }
+  res.status(200).json({ message: "contact deleted" });
+};
+// // 5
+const getContactUpdate = async (req, res) => {
+  const body = req.body;
+  const { contactId } = req.params;
+  // {new: true} для поверення одразу ноовго обекта а не старого хоча і оновленного в базі
+  const contactUpdate = await Contacts.findByIdAndUpdate(contactId, body, {
+    new: true,
+  });
+  if (!contactUpdate) {
+    throw HttpError(404, "Not found");
+  } 
+  res.status(200).json(contactUpdate);
+};
+// 6
+const updateStatusContact  = async (req, res) => {
+  const body = req.body;
+  const { contactId } = req.params;
+  const contactUpdateFavorite = await Contacts.findByIdAndUpdate(
+    contactId, body, {new: true }
+  );
+  if (!contactUpdateFavorite) {
+    throw HttpError(404, "Not found");
+  }
+  return res.status(200).json(contactUpdateFavorite);
+};
+module.exports = {
+  getContacts: wrapperCntrl(getContacts),
+  getContactID: wrapperCntrl(getContactID),
+  getContatAdd: wrapperCntrl(getContatAdd),
+  getRemoveContact: wrapperCntrl(getRemoveContact),
+  getContactUpdate: wrapperCntrl(getContactUpdate),
+  updateStatusContact : wrapperCntrl(updateStatusContact ),
+};
