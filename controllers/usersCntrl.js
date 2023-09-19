@@ -5,29 +5,20 @@ const { wrapperCntrl, HttpError } = require("../helpers");
 
 // контролер регістрації
 const register = async (req, res) => {
-    // const { email, password } = req.body; 
-    // const user = await User.findOne({ email });
-  
-    // if (user) throw HttpError(409, "Email in use");
-  
-    // const hashPass = await bcrypt.hash(password, 10);
-    // стоврення кор
-    // const newUser = await Users.create({ ...req.body, password: hashPass });
-    const newUser = await Users.create(req.body);
-    
-    res.status(201)
-    // у відповідь
-    .json({
-      email: newUser.email,
-      password: newUser.password
-    })
+  const { email, password } = req.body;
+  const user = await Users.findOne({ email });
 
-      // user: {
-      //   email: newUser.email,
-      //   subscription: newUser.subscription,
-      // },
-    // });
-  };
+  if (user) throw HttpError(409, "Email in use");
+  
+  const hashPass = await bcrypt.hash(password, 10);
+  const newUser = await Users.create({ ...req.body, password: hashPass });
+  res.status(201).json({
+    user: {
+      email: newUser.email,
+      subscription: newUser.subscription,
+    },
+  });
+};
 
 // контролер логинизації
 
