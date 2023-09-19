@@ -1,21 +1,27 @@
+// з експерементальними версіями ноди не товаришує
 const bcrypt = require("bcrypt");
 
 const { Users } = require("../models/userModel");
+// wrapperCntrl відловлює помилки замість сотні трайкетчів 
 const { wrapperCntrl, HttpError } = require("../helpers");
 
 // контролер регістрації
 const register = async (req, res) => {
   const { email, password } = req.body;
+  // 1й запит для перевірки имейлу в базі
   const user = await Users.findOne({ email });
-
   if (user) throw HttpError(409, "Email in use");
-  
-  const hashPass = await bcrypt.hash(password, 10);
-  const newUser = await Users.create({ ...req.body, password: hashPass });
+  // хешування пароля* 10 - сіль, для випадкових сиmволів
+    const hashPassword = await bcrypt.hash(password, 10);
+    // для  свіряння при вводі пароля 
+    // const comparePassword = await bcrypt.compare(password, hashPassword);
+    // ********************************************************************
+  // запит на створення юзера
+    const newUser = await Users.create({ ...req.body, password: hashPassword });
   res.status(201).json({
     user: {
       email: newUser.email,
-      subscription: newUser.subscription,
+      subscription: newUser.subscription, 
     },
   });
 };

@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const contactsRouter = require("./routes/api/contacts");
+
 const authRouter = require("./routes/api/users");
 
 const app = express(); 
@@ -15,7 +16,6 @@ app.use(cors());
 //  м/в для читання боді
 app.use(express.json());
  
-// все на юсерз через аусроутер 
 app.use("/api/users", authRouter);
 
 app.use("/api/contacts", contactsRouter);
