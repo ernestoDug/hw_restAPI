@@ -1,11 +1,16 @@
 // з експерементальними версіями ноди не товаришує
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+// npm i jsonwebtoken
 
 const { Users } = require("../models/userModel");
 // wrapperCntrl відловлює помилки замість сотні трайкетчів 
 const { wrapperCntrl, HttpError } = require("../helpers");
 
-// контролер регістрації
+const { SECRET_KEY } = process.env;
+
+
+// 1 контролер регістрації
 const register = async (req, res) => {
   const { email, password } = req.body;
   // 1й запит для перевірки имейлу в базі
@@ -13,10 +18,7 @@ const register = async (req, res) => {
   if (user) throw HttpError(409, "Email in use");
   // хешування пароля* 10 - сіль, для випадкових сиmволів
     const hashPassword = await bcrypt.hash(password, 10);
-    // для  свіряння при вводі пароля 
-    // const comparePassword = await bcrypt.compare(password, hashPassword);
-    // ********************************************************************
-  // запит на створення юзера
+      // запит на створення юзера
     const newUser = await Users.create({ ...req.body, password: hashPassword });
   res.status(201).json({
     user: {
@@ -25,43 +27,39 @@ const register = async (req, res) => {
     },
   });
 };
-
-// контролер логинизації
-
-
-
-
-// const login = async (req, res) => {
-//     const { email, password } = req.body;
-  
-//     const user = await User.findOne({ email });
-//     if (!user) throw HttpError(401, "Email or password is wrong");
-  
-//     const passCompare = await bcrypt.compare(password, user.password);
-//     if (!passCompare) throw HttpError(401, "Email or password is wrong");
-  
-//     const payload = {
-//       id: user._id, 
-//     };
-//     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
-//     await User.findOneAndUpdate(user._id, { token });
-  
-//     res.json({
-//       token,
-//       user: {
-//         email: user.email,
-//         subscription: user.subscription,
-//       },
-//     });
-//   };
+// 2 контролер логинизації
+const login = async (req, res) => {
+    const { 
+      email,
+      password } = req.body;
+  // запит на правильність имейла
+    const user = await Users.findOne({ email });
+    if (!user) throw HttpError(401, "Email or password is wrong");
+  // для  свіряння при вводі пароля введеного та хешованого 
+const comparePassword = await bcrypt.compare(password, user.password);   
+ if (!comparePassword) throw HttpError(401, "Email or password is wrong");
+      const payload = {
+      id: user._id, 
+    };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
+    await Users.findOneAndUpdate(user._id, { token });
+  // відправлення токена
+    res.json({
+      token,
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
+    });
+  };
 
 
 
 
 
-//   wrapperCntrl для помилок
+//   wrapperCntrl для хапання помилок
   module.exports = {
-    // login: wrapperCntrl(login),
+    login: wrapperCntrl(login),
     register: wrapperCntrl(register),
     // getContatAdd: wrapperCntrl(getContatAdd),
     // getRemoveContact: wrapperCntrl(getRemoveContact),

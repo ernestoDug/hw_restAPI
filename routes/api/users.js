@@ -4,17 +4,17 @@ const { userSchemas } = require("../../models/userModel");
 
 const controls = require("../../controllers/usersCntrl");
 const router = express.Router();
-// 1рег
+// 1рег signup
 router.post( 
   "/register",
   bodyValidator(userSchemas.registerSchema),
   controls.register 
 ); 
-
-
-
-// router.post("/login", bodyValidator(userSchemas.loginSchema), 
-// controls.login); 
+// 2 лог signin 
+router.post(
+  "/login",
+  bodyValidator(userSchemas.loginSchema), 
+controls.login); 
 
 // router.post("/logout", authenticate, controls.logout);
 
