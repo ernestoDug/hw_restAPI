@@ -1,7 +1,6 @@
 // з експерементальними версіями ноди не товаришує
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-// npm i jsonwebtoken
 
 const { Users } = require("../models/userModel");
 // wrapperCntrl відловлює помилки замість сотні трайкетчів 
@@ -38,10 +37,16 @@ const login = async (req, res) => {
   // для  свіряння при вводі пароля введеного та хешованого 
 const comparePassword = await bcrypt.compare(password, user.password);   
  if (!comparePassword) throw HttpError(401, "Email or password is wrong");
-      const payload = {
+              // payload   
+ const payload = {
       id: user._id, 
     };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
+    // створення токена
+    const token = jwt.sign(
+      payload,
+      SECRET_KEY,
+      // об єкт налаштувань токена з терміном життя
+      { expiresIn: "10h" });
     await Users.findOneAndUpdate(user._id, { token });
   // відправлення токена
     res.json({
