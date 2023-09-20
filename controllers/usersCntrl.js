@@ -55,7 +55,7 @@ const comparePassword = await bcrypt.compare(password, user.password);
         email: user.email,
         subscription: user.subscription,
       },
-    });
+    });  
   };
 
 
