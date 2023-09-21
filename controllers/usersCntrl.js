@@ -55,19 +55,30 @@ const comparePassword = await bcrypt.compare(password, user.password);
         email: user.email,
         subscription: user.subscription,
       },
-    });  
+    });   
   };
+// 3 контролер видалятор
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await Users.findByIdAndUpdate(_id, { token: "" });
+  
+  res.status(204).json();
+};
 
+// 4
+const getCurrent = async (req, res) => {
+  const { email, subscription } = req.user;
 
-
+  res.json({ email, subscription });
+};
 
 
 //   wrapperCntrl для хапання помилок
   module.exports = {
     login: wrapperCntrl(login),
     register: wrapperCntrl(register),
-    // getContatAdd: wrapperCntrl(getContatAdd),
-    // getRemoveContact: wrapperCntrl(getRemoveContact),
+    logout: wrapperCntrl(logout),
+    getCurrent: wrapperCntrl(getCurrent),
     // getContactUpdate: wrapperCntrl(getContactUpdate),
     // updateStatusContact : wrapperCntrl(updateStatusContact ),
   };

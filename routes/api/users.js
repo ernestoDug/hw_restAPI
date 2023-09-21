@@ -1,5 +1,7 @@
 const express = require("express");
 const { bodyValidator } = require("../../middlewares");
+const { authenticator } = require("../../middlewares");
+
 const { userSchemas } = require("../../models/userModel");
 
 const controls = require("../../controllers/usersCntrl");
@@ -15,10 +17,10 @@ router.post(
   "/login",
   bodyValidator(userSchemas.loginSchema), 
 controls.login); 
+// 3 логаут видалення
+router.post("/logout", authenticator, controls.logout);
 
-// router.post("/logout", authenticate, controls.logout);
-
-// router.get("/current", authenticate, controls.getCurrent);
+router.get("/current", authenticator, controls.getCurrent);
 
 // router.patch(
 //   "/",
