@@ -19,7 +19,7 @@ router.post(
 controls.login); 
 // 3 логаут видалення
 router.post("/logout", authenticator, controls.logout);
-
+// 4
 router.get("/current", authenticator, controls.getCurrent);
 
 // router.patch(

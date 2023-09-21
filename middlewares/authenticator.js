@@ -20,7 +20,7 @@ const authenticator
     const user = await Users.findById(id);
     if (!user || !user.token || user.token !== token)
     next(HttpError(401,  "Not authorized"));
-// відповідь
+// запис користувача у об'єкт відповіді щоб знати хто робить запис
     req.user = user;
     next();
   } catch {

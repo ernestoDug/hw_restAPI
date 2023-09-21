@@ -1,3 +1,4 @@
+// помилки  за замовчування
 const errorMessageList = {
   400: "Bad Request",
   401: "Not authorized",
