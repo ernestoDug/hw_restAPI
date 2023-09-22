@@ -1,6 +1,7 @@
 const { Contacts } = require("../models/contactModel");
 const { wrapperCntrl, HttpError } = require("../helpers");
 
+
 // 1
 const getContacts = async (req, res) => {
   //  повернути лише те що після {}
@@ -19,8 +20,11 @@ const getContactID = async (req, res) => {
 };
 // 3
 const getContatAdd = async (req, res) => {
-  const body = req.body;
-  const newContact = await Contacts.create(body);
+  console.log("555", req.user);
+  const { _id: owner } = req.user;
+    
+   // тепер хто додає контакт той і бачить   
+  const newContact = await Contacts.create({...req.body, owner});
   return res.status(201).json(newContact);
 };
 // // 4
