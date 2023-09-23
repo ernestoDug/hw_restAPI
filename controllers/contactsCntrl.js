@@ -9,10 +9,13 @@ const getContacts = async (req, res) => {
   const searchParams = {
     owner,
   };
-
-
   // ПАГІНАЦІЯ
+  // page / limit ключі в парамса постмена
   const { page = 1, limit = 20, favorite } = req.query;
+  // скіп відповідає за пропуски с початку бази обєктів
+    // ліміт скільки повернути тобто скільки на сторінці буде
+  // pg 1 lim 3 поверне 0*3  без пропуску перші 3
+    // pg 2 lim 2 поверне (2-1)*2 з 3го 
   const skip = (page - 1) * limit;
   if (typeof favorite === "undefined") {
     delete searchParams.favorite;
@@ -22,7 +25,6 @@ const getContacts = async (req, res) => {
   //  повернути лише те що після {}
   ///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом як написав
   const contacts = await Contacts.find({owner}, "name phone email favorite", {
-// скіп відповідає за пропуски с початку бази обєктів
     skip,
     limit,
     // ПОПЬЮЛЕЙТ для отримання доадткових даних крім айді власника
@@ -82,6 +84,8 @@ const updateStatusContact  = async (req, res) => {
   }
   return res.status(200).json(contactUpdateFavorite);
 };
+
+
 module.exports = {
   getContacts: wrapperCntrl(getContacts),
   getContactID: wrapperCntrl(getContactID),
