@@ -17,7 +17,7 @@ router.post(
   "/login",
   bodyValidator(userSchemas.loginSchema), 
 controls.login); 
-// 3 логаут видалення
+// 3 логаут розлогінення
 router.post("/logout", authenticator, controls.logout);
 // 4
 router.get("/current", authenticator, controls.getCurrent);

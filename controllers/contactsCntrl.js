@@ -1,12 +1,13 @@
 const { Contacts } = require("../models/contactModel");
 const { wrapperCntrl, HttpError } = require("../helpers");
-
-
 // 1
 const getContacts = async (req, res) => {
+  // щоб показати лише додані книги власника
+  const { _id: owner } = req.user;
+
   //  повернути лише те що після {}
-  ///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом
-  const contacts = await Contacts.find({}, "name phone email favorite");
+  ///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом як написав
+  const contacts = await Contacts.find({owner}, "name phone email favorite");
   return res.status(200).json(contacts);
 };
 // // 2
@@ -20,10 +21,11 @@ const getContactID = async (req, res) => {
 };
 // 3
 const getContatAdd = async (req, res) => {
-  console.log("555", req.user);
+  // отримання айді власника для додавання книги 
   const { _id: owner } = req.user;
+  // req.user з аутентификатора
     
-   // тепер хто додає контакт той і бачить   
+   // тепер  контакт закрілений за власником   
   const newContact = await Contacts.create({...req.body, owner});
   return res.status(201).json(newContact);
 };
@@ -32,7 +34,7 @@ const getRemoveContact = async (req, res) => {
   const { contactId } = req.params;
   const contactRemove = await Contacts.findByIdAndRemove(contactId);
   if (!contactRemove) {
-    throw HttpError(404, `Not found`);
+    throw HttpError(404, `Not found`); 
   }
   res.status(200).json({ message: "contact deleted" });
 };

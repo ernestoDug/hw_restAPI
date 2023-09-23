@@ -16,11 +16,11 @@ const authenticator
     // перевірка терміна життя токена та шифрування
     //  конкретним ключем
     const { id } = jwt.verify(token, SECRET_KEY);
-    // пошук у базі
+    // пошук юзера у базі
     const user = await Users.findById(id);
     if (!user || !user.token || user.token !== token)
     next(HttpError(401,  "Not authorized"));
-// запис користувача у об'єкт відповіді щоб знати хто робить запис
+// запис користувача у об'єкт відповіді щоб знати хто робить запит
     req.user = user;
     next();
   } catch {

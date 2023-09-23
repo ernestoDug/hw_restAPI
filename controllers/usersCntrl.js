@@ -46,7 +46,7 @@ const comparePassword = await bcrypt.compare(password, user.password);
       payload,
       SECRET_KEY,
       // об єкт налаштувань токена з терміном життя
-      { expiresIn: "10h" });
+      { expiresIn: "15h" });
     await Users.findOneAndUpdate(user._id, { token });
   // відправлення токена
     res.json({
