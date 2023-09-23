@@ -1,13 +1,32 @@
 const { Contacts } = require("../models/contactModel");
 const { wrapperCntrl, HttpError } = require("../helpers");
+
+
 // 1
 const getContacts = async (req, res) => {
   // щоб показати лише додані книги власника
   const { _id: owner } = req.user;
+  const searchParams = {
+    owner,
+  };
 
+
+  // ПАГІНАЦІЯ
+  const { page = 1, limit = 20, favorite } = req.query;
+  const skip = (page - 1) * limit;
+  if (typeof favorite === "undefined") {
+    delete searchParams.favorite;
+  } else {
+    searchParams.favorite = favorite;
+  }
   //  повернути лише те що після {}
   ///  "{} -createdAt -updateAt" бо поверни все крім того що з мінсом як написав
-  const contacts = await Contacts.find({owner}, "name phone email favorite");
+  const contacts = await Contacts.find({owner}, "name phone email favorite", {
+// скіп відповідає за пропуски с початку бази обєктів
+    skip,
+    limit,
+    // ПОПЬЮЛЕЙТ для отримання доадткових даних крім айді власника
+  }).populate("owner", "email");
   return res.status(200).json(contacts);
 };
 // // 2

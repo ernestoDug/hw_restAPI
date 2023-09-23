@@ -57,7 +57,7 @@ const comparePassword = await bcrypt.compare(password, user.password);
       },
     });   
   };
-// 3 контролер видалятор
+// 3 контролер пошук айди юз разлогіненн
 const logout = async (req, res) => {
   const { _id } = req.user;
   await Users.findByIdAndUpdate(_id, { token: "" });
@@ -65,11 +65,25 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
-// 4
+// 4 конролер пошук даних користувача
 const getCurrent = async (req, res) => {
   const { email, subscription } = req.user;
 
   res.json({ email, subscription });
+};
+
+// 5 зміна підписки
+const updateSubscr = async (req, res) => {
+  const { _id } = req.user;
+  if (!req.body) throw HttpError(400, "missing field subscription");
+
+  const { email, subscription } = await Users.findByIdAndUpdate(_id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!email || !subscription) throw HttpError(404, "Not found");
+
+  res.status(201).json({ email, subscription });
 };
 
 
@@ -79,6 +93,5 @@ const getCurrent = async (req, res) => {
     register: wrapperCntrl(register),
     logout: wrapperCntrl(logout),
     getCurrent: wrapperCntrl(getCurrent),
-    // getContactUpdate: wrapperCntrl(getContactUpdate),
-    // updateStatusContact : wrapperCntrl(updateStatusContact ),
+    updateSubscr: wrapperCntrl(updateSubscr), 
   };

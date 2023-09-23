@@ -82,7 +82,7 @@ const loginSchema = Joi.object({
     }),
 });
 
-const updSubscriptionSchema = Joi.object({
+const updateSubsSchema = Joi.object({
   subscription: Joi.string().required(),
 });
 
@@ -90,7 +90,7 @@ const updSubscriptionSchema = Joi.object({
 const userSchemas = {
   registerSchema,
   loginSchema,
-  updSubscriptionSchema,
+  updateSubsSchema,
 };
 
 module.exports = { Users, userSchemas };
