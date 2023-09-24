@@ -3,11 +3,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const { Users } = require("../models/userModel");
-// wrapperCntrl відловлює помилки замість сотні трайкетчів 
+// wrapperCntrl відловлює помилки замість сотні трайкетчів
 const { wrapperCntrl, HttpError } = require("../helpers");
 
 const { SECRET_KEY } = process.env;
-
 
 // 1 контролер регістрації
 const register = async (req, res) => {
@@ -16,58 +15,59 @@ const register = async (req, res) => {
   const user = await Users.findOne({ email });
   if (user) throw HttpError(409, "Email in use");
   // хешування пароля* 10 - сіль, для випадкових сиmволів
-    const hashPassword = await bcrypt.hash(password, 10);
-      // запит на створення юзера
-    const newUser = await Users.create({ ...req.body, password: hashPassword });
+  const hashPassword = await bcrypt.hash(password, 10);
+  // запит на створення юзера
+  const newUser = await Users.create({ ...req.body, password: hashPassword });
   res.status(201).json({
     user: {
       email: newUser.email,
-      subscription: newUser.subscription, 
+      subscription: newUser.subscription,
     },
   });
 };
 // 2 контролер логинизації
 const login = async (req, res) => {
-    const { 
-      email,
-      password } = req.body;
+  const { email, password } = req.body;
   // запит на правильність имейла
-    const user = await Users.findOne({ email });
-    if (!user) throw HttpError(401, "Email or password is wrong");
-  // для  свіряння при вводі пароля введеного та хешованого 
-const comparePassword = await bcrypt.compare(password, user.password);   
- if (!comparePassword) throw HttpError(401, "Email or password is wrong");
-              // payload   
- const payload = {
-      id: user._id, 
-    };
-    // створення токена
-    const token = jwt.sign(
-      payload,
-      SECRET_KEY,
-      // об єкт налаштувань токена з терміном життя
-      { expiresIn: "15h" });
-    await Users.findOneAndUpdate(user._id, { token });
-  // відправлення токена
-    res.json({
-      token,
-      user: {
-        email: user.email,
-        subscription: user.subscription,
-      },
-    });   
+  const user = await Users.findOne({ email });
+  if (!user) throw HttpError(401, "Email or password is wrong");
+  // для  свіряння при вводі пароля введеного та хешованого
+  const comparePassword = await bcrypt.compare(password, user.password);
+  if (!comparePassword) throw HttpError(401, "Email or password is wrong");
+  // payload
+  const payload = {
+    id: user._id,
   };
+  // створення токена
+  const token = jwt.sign(
+    payload,
+    SECRET_KEY,
+    // об єкт налаштувань токена з терміном життя
+    { expiresIn: "15h" }
+  );
+  // запис токена у базу щоб видаляти при логауті
+  await Users.findOneAndUpdate(user._id, { token });
+  // відправлення токена
+  res.json({
+    token,
+    user: {
+      email: user.email,
+      subscription: user.subscription,
+    },
+  });
+};
 // 3 контролер пошук айди юз разлогіненн
 const logout = async (req, res) => {
   const { _id } = req.user;
+  // видаляння токену з бази
   await Users.findByIdAndUpdate(_id, { token: "" });
-  
+
   res.status(204).json();
 };
 
 // 4 конролер пошук даних користувача за валідним токеном
 const getCurrent = async (req, res) => {
-  // взяти з рекв юз данні що в м/в аутенификатор 
+  // взяти з рекв юз данні що в м/в аутенификатор
   const { email, subscription } = req.user;
 
   res.json({ email, subscription });
@@ -87,12 +87,11 @@ const updateSubscr = async (req, res) => {
   res.status(201).json({ email, subscription });
 };
 
-
 //   wrapperCntrl для хапання помилок
-  module.exports = {
-    login: wrapperCntrl(login),
-    register: wrapperCntrl(register),
-    logout: wrapperCntrl(logout),
-    getCurrent: wrapperCntrl(getCurrent),
-    updateSubscr: wrapperCntrl(updateSubscr), 
-  };
+module.exports = {
+  login: wrapperCntrl(login),
+  register: wrapperCntrl(register),
+  logout: wrapperCntrl(logout),
+  getCurrent: wrapperCntrl(getCurrent),
+  updateSubscr: wrapperCntrl(updateSubscr),
+};

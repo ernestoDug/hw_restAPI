@@ -14,11 +14,9 @@ router.post(
 // 2 лог signin
 router.post("/login", bodyValidator(userSchemas.loginSchema), controls.login);
 // 3 логаут розлогінення
-router.post(
-  "/logout", authenticator, controls.logout);
-// 4 данні про користувача
-router.get(
-  "/current", authenticator, controls.getCurrent);
+router.post("/logout", authenticator, controls.logout);
+// 4 данні про користувача щоб знову не логінитись
+router.get("/current", authenticator, controls.getCurrent);
 // 5 оновлення підписки користувача
 router.patch(
   "/",

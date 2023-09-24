@@ -6,6 +6,7 @@ const emailRegexp = /.+@.+\../;
 
 const paswRegexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
+// Типи підписки
 const SUBSCRIPTIONS = ["starter", "pro", "business"];
 
 // схема  Mонгуса юзеров
@@ -32,10 +33,10 @@ const userSchema = new Schema(
     subscription: {
       type: String,
       enum: {
-    values: [...SUBSCRIPTIONS],
-    message: `have only ${SUBSCRIPTIONS.join(", ")}`,
-    },
-    default: "starter",
+        values: [...SUBSCRIPTIONS],
+        message: `have only ${SUBSCRIPTIONS.join(", ")}`,
+      },
+      default: "starter",
     },
     token: String,
   },

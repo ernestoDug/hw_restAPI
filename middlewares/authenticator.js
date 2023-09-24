@@ -5,9 +5,8 @@ const { Users } = require("../models/userModel");
 
 const { SECRET_KEY } = process.env;
 
-const authenticator
-= async (req, res, next) => {
-// ="" щоб запобігти зламу коли нема токена і був би не сплітемій андефайнд
+const authenticator = async (req, res, next) => {
+  // ="" щоб запобігти зламу коли нема токена і був би не сплітемій андефайнд
   const { authorization = "" } = req.headers;
   // сплітемо через "" хедер забираемо слово биарер та сам токен
   const [bearer, token] = authorization.split(" ");
@@ -19,8 +18,8 @@ const authenticator
     // пошук юзера у базі
     const user = await Users.findById(id);
     if (!user || !user.token || user.token !== token)
-    next(HttpError(401,  "Not authorized"));
-// запис користувача у об'єкт відповіді щоб знати хто робить запит
+      next(HttpError(401, "Not authorized"));
+    // запис користувача у об'єкт відповіді щоб знати хто робить запит
     req.user = user;
     next();
   } catch {
