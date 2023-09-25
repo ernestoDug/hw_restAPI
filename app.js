@@ -16,7 +16,7 @@ app.use(cors());
 //  м/в для читання боді
 app.use(express.json());
  
-app.use("/api/users", authRouter);
+app.use("/users", authRouter);
 
 app.use("/api/contacts", contactsRouter);
 
