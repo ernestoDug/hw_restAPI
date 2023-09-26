@@ -2,14 +2,15 @@
 // джої валідує тіло
 const Joi = require("joi");
 
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
+
 const { mongooseError } = require("../helpers");
 // регулярки
 const nameRegexp = /^([a-zA-Z])/;
 const phoneRegexp = /^[:(:]\d{3}[:):]\s\d{3}-\d{4}$/;
 const emailRegexp = /.+@.+\../;
 // схема  Mонгуса
-const contactsSchema = new mongoose.Schema(
+const contactsSchema = new Schema(
   {
     name: {
       type: String,
@@ -30,6 +31,13 @@ const contactsSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // властивість для id власника для приватизації
+    owner: {
+      type: Schema.Types.ObjectId,
+      // колекція
+      ref: "users",
+      required: [true, "Contact must have an owner"],
+    },
   },
   // обєкт налаштувань щоб без версій та біло коли створено та онволено
   { versionKey: false, timestamps: true }
@@ -39,7 +47,7 @@ const contactsSchema = new mongoose.Schema(
 contactsSchema.post("save", mongooseError);
 
 // модель (колекція,  валідаційна схема)
-const Contacts = mongoose.model("contacts", contactsSchema);
+const Contacts = model("contacts", contactsSchema);
 
 // джої схема
 const addShema = Joi.object({

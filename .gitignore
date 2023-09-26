@@ -2,9 +2,5 @@ node_modules/
 .env
 .idea
 .vscode
-
-usersAuth.js
-userModel.js
-usersCntrl.js
-hw04-auth.md
-
+indexx.js
+userAvatarCntrl.js
