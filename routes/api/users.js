@@ -1,8 +1,12 @@
 const express = require("express");
-const { bodyValidator } = require("../../middlewares");
-const { authenticator } = require("../../middlewares");
+const {
+  bodyValidator,
+  authenticator,
+  fileLoader,
+} = require("../../middlewares");
+
 const { userSchemas } = require("../../models/userModel");
-const controls = require("../../controllers/usersCntrl");
+const controls = require("../../controllers/users");
 const router = express.Router();
 
 // 1рег signup
@@ -24,5 +28,11 @@ router.patch(
   bodyValidator(userSchemas.updateSubsSchema),
   controls.updateSubscr
 );
-
-module.exports = router;
+// 6 в сінгле вказуємо поле в якому чикаємо файл а не тест в боді
+router.patch(
+  "/avatars",
+  authenticator,
+  // fileLoader.single("avatar"),
+  controls.userAvatar
+);
+module.exports = router;  

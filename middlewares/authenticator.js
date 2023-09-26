@@ -13,7 +13,7 @@ const authenticator = async (req, res, next) => {
   if (bearer !== "Bearer" || !token) next(HttpError(401, "Not authorized"));
   try {
     // перевірка терміна життя токена та шифрування
-    //  конкретним ключем
+    //  конкретним ключем 
     const { id } = jwt.verify(token, SECRET_KEY);
     // пошук юзера у базі  
     const user = await Users.findById(id);
