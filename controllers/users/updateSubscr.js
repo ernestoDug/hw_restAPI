@@ -5,7 +5,6 @@ const updateSubscr = async (req, res) => {
     const { _id } = req.user;
     if (!req.body) throw HttpError(400, "missing field subscription");
     const { Users } = require("../../models/userModel");
-
    
     const { email, subscription } = await Users.findByIdAndUpdate(_id, req.body, {
       new: true,

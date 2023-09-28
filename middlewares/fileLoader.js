@@ -5,9 +5,9 @@ const tempDir = path.join(__dirname, "..", "tmp");
 // об'єкт налаштувань для м/в
 const multerConfig = multer.diskStorage({
   destination: tempDir,
-  // filename зберігає file (що прийшов)
+    // filename зберігає file (що прийшов)
   filename: (req, file, cb) => {
-    // а у сі бі переуменування того що прийшло або оригинальне ім₴я
+        // а у сібі переуменування того що прийшло або оригинальне ім₴я
     cb(null, file.originalname);
   },
 });

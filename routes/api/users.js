@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   bodyValidator,
-  authenticator,
+  authenticator, 
   fileLoader,
 } = require("../../middlewares");
 
@@ -28,11 +28,16 @@ router.patch(
   bodyValidator(userSchemas.updateSubsSchema),
   controls.updateSubscr
 );
-// 6 в сінгле вказуємо поле в якому чикаємо файл а не тест в боді
+// 6 авка-додавач 
+// в сінгле вказуємо поле боді для файлу 
+// багато в одному полі fileLoader.array("поле", число файлв)
+// багато полів fileLoader.fields[{name: "pole", maxCount: skilki }, {і тд}]
 router.patch(
   "/avatars",
   authenticator,
-  // fileLoader.single("avatar"),
+  fileLoader.single("avatar"),
   controls.userAvatar
 );
+
+
 module.exports = router;  

@@ -24,7 +24,6 @@ const userSchema = new Schema(
       // а в оптионс обрати криат уникум індекс
       unique: true,
     },
-
     password: {
       type: String,
       required: [true, "Set password for user"],
@@ -38,9 +37,7 @@ const userSchema = new Schema(
       },
       default: "starter",
     },
-    // **************************************5
-    // avatarURL: String,
-    // ***********************************************5
+    avatarURL: String,
     token: String,
   },
   // обєкт налаштувань щоб без версій та було створено/онволено

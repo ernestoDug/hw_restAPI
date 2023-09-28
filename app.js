@@ -15,6 +15,9 @@ app.use(logger(formatsLogger));
 app.use(cors());
 //  м/в для читання боді
 app.use(express.json());
+// роздавання статики
+app.use(express.static("public"));
+
  
 app.use("/users", authRouter);
 
