@@ -28,7 +28,7 @@ router.patch(
   bodyValidator(userSchemas.updateSubsSchema),
   controls.updateSubscr
 );
-// 6 авка-додавач 
+// 6 оновлення авки
 // в сінгле вказуємо поле боді для файлу 
 // багато в одному полі fileLoader.array("поле", число файлв)
 // багато полів fileLoader.fields[{name: "pole", maxCount: skilki }, {і тд}]
