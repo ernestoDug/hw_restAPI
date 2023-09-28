@@ -11,9 +11,9 @@ const register = async (req, res) => {
   if (user) throw HttpError(409, "Email in use");
   // хешування пароля* 10 - сіль, для випадкових сиmволів
   const hashPassword = await bcrypt.hash(password, 10);
-  // авка новому юзеру
+  // шаблонна авка новому юзеру
   const avatarURL = gravatar.url(email);
-  //  створення юзера авкою
+  //  створення юзера з шаблонною авкою
   const newUser = await Users.create(
     { ...req.body, 
     password: hashPassword,

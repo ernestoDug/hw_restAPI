@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const { SECRET_KEY } = process.env;
 const jwt = require("jsonwebtoken");
 
-
 // 2 контролер логинизації
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -34,6 +33,8 @@ const login = async (req, res) => {
       user: {
         email: user.email,
         subscription: user.subscription,
+        avatarURL: user.avatarURL,
+
       },
     });
   };
