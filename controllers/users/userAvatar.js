@@ -15,16 +15,15 @@ const userAvatar = async (req, res) => {
   await Jimp.read(tempUpload).then((img) =>
     img.resize(250, 250).write(`${tempUpload}`)
   );
-  // айді з ім'ям файлу як назва
+  // унікальність назви з айді 
   const fileName = `${_id}_${originalname}`;
   // нове місце файла
   const resultUpload = path.join(avatarDir, fileName);
   // переміщення файлу з старого місця на пмж*
   await fs.rename(tempUpload, resultUpload);
-  // свтілини пмж як варіант зберігати на клаудері (має нпм пакет)
   // запис до бази
   const avatarURL = path.join("avatars", fileName);
-  // додавання авочки до юзера
+  // перезапис авочки юзера
   await Users.findByIdAndUpdate(_id, { avatarURL }); 
   if (!avatarURL) throw HttpError(404, "Not found");
 
