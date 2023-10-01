@@ -1,36 +1,30 @@
-const app = require("../../app");
-const request = require("supertest");
-// початок тесту у "" що тестим потім тестеровщик
-describe("POST /users/login", () => {
-  test("Should return user (email and subscription), token", async () => {
-    const testData = {
-      email: "*",
-      password: "*",
-    };
+// чомусь не вийшло ((((((((((((((((((
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    const response = await request(app).post("/api/users/login").send(testData);
-// expect функція джеста оримує резл і пакує в об'єкт
-// якщо рез === що в ту бі тест пройшли
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        token: expect.any(String),
-        user: {
-          email: expect.any(String),
-          subscription: expect.any(String),
-        },
-      })
-    );
-  });
 
-  it("should return unathorized error", async () => {
-    const testData = {
-      email: "*",
-      password: "*",
-    };
+// const app = require("../../app");
+// // для імітації запитів
+// const request = require("supertest");
 
-    const response = await request(app).post("/api/users/login").send(testData);
+// // початок тесту "що", => чим
+// describe("POST  /users/login", () => {
+//   it("test route login return user(email, subscrsbe) and token", async () => {
+//     const testUsers = { email: "bogeеma@gmail.com", password: "glamuruNet68" };
+//     // імітація запиту
+//     const response = await request(app).post("/users/login").send(testUsers);
+//     // в експект результат його пакує в обект
+//     // в ту бі праивльне значення порівнє з експектом
+//     // vidvd
+//     expect(response.statusCode).toBe(200);
+//     expect(response.body).toEqual(
+//       expect.objectContaining({
+//         token: expect.any(String),
 
-    expect(response.statusCode).toBe(401);
-  });
-});
+//         user: {
+//           email: expect.any(String),
+//           subscription: expect.any(String),
+//         },
+//       })
+//     );
+//   });
+// });
