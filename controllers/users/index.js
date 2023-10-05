@@ -6,6 +6,9 @@ const  login =  require("./login");
 const  logout =  require("./logout");
 const  getCurrent =  require("./getCurrent");
 const  updateSubscr =  require("./updateSubscr");
+const emailVerificator = require("./emailVerificator");
+const emailResending = require("./emailResending");
+
 
 
 
@@ -17,6 +20,8 @@ module.exports = {
     logout: wrapperCntrl(logout),
     getCurrent: wrapperCntrl(getCurrent),
     updateSubscr: wrapperCntrl(updateSubscr),
+    emailVerificator: wrapperCntrl(emailVerificator),
+    emailResending: wrapperCntrl(emailResending),
 
 
 

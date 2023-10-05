@@ -14,7 +14,9 @@ const login = async (req, res) => {
     // для  свіряння при вводі пароля введеного та хешованого
     const comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) throw HttpError(401, "Email or password is wrong");
-    // payload
+    // чи верфкований имейл
+    if (!user.verify) throw HttpError(401, "Email not verified");
+
     const payload = {
       id: user._id,
     };

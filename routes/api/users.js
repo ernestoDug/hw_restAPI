@@ -38,6 +38,14 @@ router.patch(
   fileLoader.single("avatar"),
   controls.userAvatar
 );
-
+// 7 для відправки имейла користувачу 
+// по verificationToken шукається користувач в User 
+router.get("/verify/:verificationToken", controls.emailVerificator);
+// 8 для повторної відрпавки з посиланням веріфікації
+router.post(
+  "/verify",
+  bodyValidator(userSchemas.emailSchema),
+  controls.emailResending
+);
 
 module.exports = router;  
