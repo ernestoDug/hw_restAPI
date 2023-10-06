@@ -22,7 +22,7 @@ const transport = nodemailer.createTransport(nademailerConfig);
 const sendEmail = async (data) => {
   const email = { ...data, from: META_EMAIL };
   
-  await transport.sendMail(email);
+  await transport.sendMail(email); 
   return true;
 };
 
