@@ -24,7 +24,6 @@ const userSchema = new Schema(
       // а в оптионс обрати криат уникум індекс
       unique: true,
     },
-
     password: {
       type: String,
       required: [true, "Set password for user"],
@@ -38,7 +37,18 @@ const userSchema = new Schema(
       },
       default: "starter",
     },
+    avatarURL: String,
     token: String,
+    // для веріфікації имейла 
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+        // токен для веріфікації имейла 
+    verificationToken: {
+      type: String,
+      required: [true, "Veriffy token is required"],
+    },
   },
   // обєкт налаштувань щоб без версій та було створено/онволено
   { versionKey: false, timestamps: true }
@@ -82,16 +92,27 @@ const loginSchema = Joi.object({
         "Password must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters. Example Xxx489, 8Xxxxx.",
     }),
 });
-
+// джої схема для зміни підписки
 const updateSubsSchema = Joi.object({
   subscription: Joi.string().required(),
 });
+// джої схема для пошти
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.pattern.base":
+    "Email may contain letters, numbers, '@'For example Sherlok@ukr.ua, watson@gmail.net, lastradeD@mail.com",
+  }),
+})
+
+
+
 
 // схемоХаб
 const userSchemas = {
   registerSchema,
   loginSchema,
   updateSubsSchema,
+  emailSchema,
 };
 
 module.exports = { Users, userSchemas };

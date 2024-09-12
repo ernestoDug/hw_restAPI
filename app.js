@@ -15,6 +15,9 @@ app.use(logger(formatsLogger));
 app.use(cors());
 //  м/в для читання боді
 app.use(express.json());
+// м/в для поошуку стаитчного файлу
+// перевіря так http://localhost:3000/avatars/Zohan.jpg
+app.use(express.static("public"));
  
 app.use("/users", authRouter);
 
